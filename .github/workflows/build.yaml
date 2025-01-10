@@ -1,0 +1,58 @@
+name: Build, Test, and Release
+
+on: [push, pull_request]
+
+jobs:
+  test_windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+  build_and_release_installer:
+    needs: test_windows
+    runs-on: windows-latest
+    if: startsWith(github.ref, 'refs/tags/v') # Only run on version tags
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Build executable
+      run: |
+        pyinstaller --onefile --icon=./assets/weather-news.ico --name "GEP Weather to Video" --noconsole --windowed main.py
+
+    - name: Compile .ISS to .EXE Installer
+      uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+      with:
+        path: setup/setup.iss
+
+    - name: Upload Installer to Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/GEP Media Compressor Installer.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

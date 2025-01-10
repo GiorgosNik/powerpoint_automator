@@ -1,5 +1,7 @@
+import os
 import time
 import logging
+from sys import exit
 from pathlib import Path
 from contextlib import contextmanager
 from selenium import webdriver
@@ -12,13 +14,16 @@ from pptx import Presentation
 from pptx.util import Cm
 import win32com.client
 
+# Get the user's Desktop path
+desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+
 # Configuration
 CONFIG = {
     'url': "https://freemeteo.gr/kairos/plati/7-imeres/pinakas/?gid=734573&language=greek&country=greece",
     'screenshot_path': "weather_screenshot.png",
     'template_path': "template.pptx",
     'output_pptx': "updated_presentation.pptx",
-    'output_video': "out.mp4",
+    'output_video': os.path.join(desktop_path, "Καιρός.mp4"),  # Save video to Desktop
     'slide_dimensions': {'left': 4.18, 'top': 1.29, 'width': 17.03, 'height': 11.69}
 }
 
@@ -26,7 +31,7 @@ CONFIG = {
 logging.basicConfig(
     level=logging.ERROR,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
+    handlers=[ 
         logging.StreamHandler(),
         logging.FileHandler("app.log", mode='w', encoding='utf-8')
     ]
@@ -37,6 +42,10 @@ def chrome_driver():
     """Context manager for Chrome driver"""
     options = ChromeOptions()
     options.add_argument("--start-maximized")
+    options.add_argument("--headless")  # Add this line to run Chrome in headless mode
+    options.add_argument("--disable-gpu")  # Recommended for headless mode
+    options.add_argument("--no-sandbox")  # Optional: can improve stability in some environments
+    options.add_argument("--disable-dev-shm-usage")  # Optional: avoid shared memory issues
     logging.debug("Initializing Chrome driver")
     driver = webdriver.Chrome(options=options)
     try:
@@ -100,11 +109,17 @@ def update_powerpoint():
 def create_video():
     """Convert PowerPoint to video"""
     powerpoint = win32com.client.Dispatch("Powerpoint.Application")
+    powerpoint.DisplayAlerts = 0  # Suppress alerts
+
     try:
         logging.info("Opening PowerPoint file for video conversion")
         presentation = powerpoint.Presentations.Open(
-            FileName=str(Path.cwd() / CONFIG['output_pptx'])
+            FileName=str(Path.cwd() / CONFIG['output_pptx']),
+            WithWindow=True  # Must be True to avoid the "Visible" error
         )
+        
+        # Minimize the PowerPoint window
+        powerpoint.WindowState = 2  # ppWindowMinimized
         
         presentation.CreateVideo(
             str(Path.cwd() / CONFIG['output_video']),
@@ -113,7 +128,7 @@ def create_video():
         )
         
         logging.debug("Waiting for video creation to complete")
-        while presentation.CreateVideoStatus == 1:
+        while presentation.CreateVideoStatus == 1:  # Check if video rendering is complete
             time.sleep(1)
         
         presentation.Close()
@@ -122,7 +137,8 @@ def create_video():
         logging.error(f"Error creating video: {str(e)}")
         raise
     finally:
-        powerpoint.Quit()
+        powerpoint.Quit()  # Ensure PowerPoint quits
+
 
 def main():
     """Main execution function"""
@@ -138,4 +154,4 @@ def main():
     return 0
 
 if __name__ == "__main__":
-    exit(main())
+    main()
