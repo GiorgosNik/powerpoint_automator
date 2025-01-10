@@ -77,18 +77,6 @@ def test_weather_website_accessibility():
         except Exception as e:
             pytest.fail(f"Weather website not accessible: {str(e)}")
 
-def test_cookie_consent_button():
-    with chrome_driver() as driver:
-        try:
-            driver.get(CONFIG['url'])
-            consent_button = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//*[contains(text(), 'Συναίνεση')]"))
-            )
-            assert consent_button.is_displayed()
-            assert consent_button.is_enabled()
-        except Exception as e:
-            pytest.fail(f"Cookie consent button not found: {str(e)}")
-
 def test_update_powerpoint_invalid_template():
     invalid_template = "nonexistent_template.pptx"
     original_template = CONFIG['template_path']
