@@ -8,8 +8,8 @@ Compression=lzma
 SolidCompression=yes
 
 [Files]
-Source: "../../dist/GEP Weather to Video.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "../../assets/weather-news.ico"; DestDir: "{app}/assets"; Flags: ignoreversion
+Source: "../dist/GEP Weather to Video.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../assets/weather-news.ico"; DestDir: "{app}/assets"; Flags: ignoreversion
 Source: "../template.pptx"; DestDir: "{app}"; Flags: ignoreversion
 
 [Tasks]
