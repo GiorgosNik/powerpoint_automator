@@ -1,6 +1,6 @@
 [Setup]
 AppName=GEP Weather to Video      
-OutputDir=../../dist
+OutputDir=../dist
 AppVersion=1.0.0
 OutputBaseFilename=GEP Weather to Video Installer
 DefaultDirName={autopf}\GEP Weather to Video    
