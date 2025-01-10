@@ -25,7 +25,8 @@ CONFIG = {
     'template_path': "template.pptx",
     'output_pptx': "updated_presentation.pptx",
     'output_video': os.path.join(desktop_path, "Καιρός.mp4"),  # Save video to Desktop
-    'slide_dimensions': {'left': 4.18, 'top': 1.29, 'width': 17.03, 'height': 11.69}
+    'slide_dimensions': {'left': 4.18, 'top': 1.29, 'width': 17.03, 'height': 11.69},
+    'log_path': os.path.join(desktop_path, "app.log")  # Save log to Desktop
 }
 
 # Setup logging with file handler and format
@@ -34,7 +35,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[ 
         logging.StreamHandler(),
-        logging.FileHandler("app.log", mode='w', encoding='utf-8')
+        logging.FileHandler(CONFIG['log_path'], mode='w', encoding='utf-8')  # Save log to Desktop
     ]
 )
 
