@@ -52,7 +52,7 @@ CONFIG = {
      'screenshot_path': "weather_screenshot.png",
      'template_path': "template.pptx",
      'output_pptx': "updated_presentation.pptx",
-     'output_video': "Καιρός.mp4",
+     'output_video': "Καιρός-ΜΗΝΑΣ-2024.mp4",
 }
 ```
 
