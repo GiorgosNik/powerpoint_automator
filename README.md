@@ -40,7 +40,7 @@ python main.py
     - Take a screenshot of the forecast data
     - Update the PowerPoint template with the new data
     - Convert the presentation to video
-    - Save the video to your Desktop as "Καιρός.mp4"
+    - Save the video to your Desktop as "Καιρός-ΜΗΝΑΣ-2024.mp4"
 
 ## Configuration
 

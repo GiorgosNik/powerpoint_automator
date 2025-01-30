@@ -24,7 +24,7 @@ CONFIG = {
     'screenshot_path': "weather_screenshot.png",
     'template_path': "template.pptx",
     'output_pptx': "updated_presentation.pptx",
-    'output_video': os.path.join(desktop_path, "Καιρός.mp4"),  # Save video to Desktop
+    'output_video': os.path.join(desktop_path, "Καιρός-ΜΗΝΑΣ-2024.mp4"),  # Save video to Desktop
     'slide_dimensions': {'left': 4.18, 'top': 1.29, 'width': 17.03, 'height': 11.69}
 }
 
