@@ -2,6 +2,14 @@
 
 A Python automation tool that captures weather forecasts and converts them into PowerPoint presentations and videos.
 
+## Related army projects
+This repository is part of a series of automation apps that I created during my service in the Information and Research Bureau in the Greek Army.
+### Similar projects.
+- [weekly_report_automator](https://github.com/GiorgosNik/weekly_report_automator):
+C# application for automated PowerPoint report generation.
+- [media_compressor](https://github.com/GiorgosNik/media_compressor):
+Python desktop app for batch compression of videos and images.
+
 ## Overview
 
 This tool automates the process of:
